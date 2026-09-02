@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ASG Employee Portal | Asalat Sinhareeb Company</title>
+<style>
+:root{--asg-primary:#0e5651;--asg-accent:#d8753c;--asg-sidebar:#0b403d}
+:root{
+  --bg:#f3f6f7;--surface:#fff;--line:#dce5e7;--text:#193038;--muted:#6d7f85;
+  --green:#0e5651;--green2:#15756e;--orange:#d8753c;--shadow:0 12px 35px rgba(25,55,62,.08)
+}
+*{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}.hidden{display:none!important}
+#login{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
+.hero{background:linear-gradient(135deg,#0d403d,#0e625c);color:#fff;padding:70px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:42px 42px}
+.hero>*{position:relative;z-index:2}.logo{display:flex;align-items:center;gap:12px}.mark{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#ef9057,#c95a2a);display:grid;place-items:center;font-weight:800}
+.logo small{display:block;color:#b9d5d2;margin-top:4px}.hero h1{font-size:43px;max-width:620px;line-height:1.1;margin:50px 0 15px}.hero p{max-width:590px;color:#d5e5e3;line-height:1.7}
+.loginSide{display:grid;place-items:center;padding:35px}.card{width:min(440px,100%);background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:30px}
+.eyebrow{font-size:11px;color:var(--orange);font-weight:800;letter-spacing:.08em;text-transform:uppercase}.card h2{font-size:31px;margin:8px 0}.muted{color:var(--muted);font-size:13px}
+label{display:block;font-size:12px;font-weight:700;color:#53666c;margin:15px 0 7px}input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cedadd;border-radius:10px;outline:none;background:#fff}
+input:focus,select:focus,textarea:focus{border-color:#5a9d97;box-shadow:0 0 0 3px rgba(90,157,151,.13)}
+.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer}.primary{background:var(--orange);color:#fff}.wide{width:100%;margin-top:17px}.note{font-size:11px;background:#f6f9fa;border:1px solid var(--line);padding:12px;border-radius:10px;margin-top:18px;line-height:1.7}
+.error{background:#fdebed;color:#a43f48;border:1px solid #f3cfd2;padding:10px;border-radius:9px;margin-top:12px;font-size:12px}
+#app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:280px;background:linear-gradient(#0e5651,#0b403d);color:#fff;padding:18px 14px;overflow:auto}
+.brand{padding:5px 6px 20px}.profile{background:rgba(255,255,255,.08);padding:12px;border-radius:13px;margin-bottom:15px}.profile strong{font-size:13px}.profile small{display:block;color:#b9d4d1;margin-top:4px}
+.nav button{width:100%;text-align:left;background:transparent;border:0;color:#deeceb;padding:11px 12px;border-radius:9px;cursor:pointer;margin:2px 0}.nav button:hover,.nav button.active{background:rgba(255,255,255,.1);color:#fff}
+.nav .sub{padding-left:15px}.nav .sub button{font-size:12px;color:#bad5d2;padding:9px 12px}
+.main{margin-left:280px}.topbar{height:70px;background:#fff;border-bottom:1px solid var(--line);padding:0 25px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5}.status{font-size:12px;color:var(--muted)}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#21a474;margin-right:6px}
+.content{padding:26px;max-width:1600px;margin:auto}.pagehead{display:flex;justify-content:space-between;gap:15px;align-items:end;margin-bottom:20px}.pagehead h1{margin:4px 0 6px;font-size:28px}.pagehead p{margin:0;color:var(--muted);font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.stat{padding:18px}.stat span{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:30px;margin-top:8px}.panel{margin-top:18px;overflow:hidden}.panelHead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.panelHead h3{margin:0;font-size:15px}
+.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:750px}th{background:#f8fafb;text-align:left;font-size:11px;color:#6b7a80;padding:11px;border-bottom:1px solid var(--line)}td{padding:12px 11px;border-bottom:1px solid #eef2f3;font-size:12px}.badge{padding:5px 8px;border-radius:20px;font-size:10px;font-weight:700;background:#e6f5ef;color:#14724f}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;padding:18px}.full{grid-column:1/-1}.actions{padding:0 18px 18px}.filter{display:grid;grid-template-columns:200px 1fr auto;gap:12px;align-items:end;padding:16px}
+.placeholder{padding:60px 25px;text-align:center}.placeholder .icon{width:65px;height:65px;margin:auto;background:#e8f2f1;color:#156d66;border-radius:18px;display:grid;place-items:center;font-size:26px}.placeholder h2{margin-bottom:8px}
+@media(max-width:900px){#login{grid-template-columns:1fr}.hero{display:none}.sidebar{transform:translateX(-100%);z-index:20}.main{margin-left:0}.stats{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.filter{grid-template-columns:1fr}}
+@media(max-width:520px){.stats{grid-template-columns:1fr}.content{padding:16px}.loginSide{padding:18px}}
+
+.fileDrop{border:2px dashed #cbd9dc;border-radius:14px;padding:18px;background:#fafcfc}
+.fileMeta{display:grid;grid-template-columns:1fr 180px;gap:13px}
+.fileActions{display:flex;gap:7px;flex-wrap:wrap}
+.btn.small{padding:7px 10px;font-size:11px}
+.danger{background:#fff0f1;color:#a43f48;border:1px solid #f0c9cd}
+.secondary{background:#eef5f4;color:#0e5651;border:1px solid #d6e6e4}
+.fileName{font-weight:700;max-width:330px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:700px){.fileMeta{grid-template-columns:1fr}}
+
+
+.moduleGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.moduleCard{border:1px solid #e1e8e9;border-radius:15px;padding:16px;background:#fff;box-shadow:0 5px 16px rgba(17,41,48,.04)}
+.moduleCard h3{font-size:14px;margin:0 0 6px}.moduleCard p{font-size:12px;color:#6d7f85;line-height:1.5;min-height:36px}
+.moduleIcon{width:38px;height:38px;border-radius:11px;background:#eaf5f3;color:#0e5651;display:grid;place-items:center;font-weight:900;margin-bottom:10px}
+.kpiGrid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:#fff;border:1px solid #e1e8e9;border-radius:14px;padding:14px}.kpi span{font-size:11px;color:#718086}.kpi strong{display:block;font-size:23px;margin-top:5px;color:#15343a}
+.subnav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.subnav button{border:1px solid #dfe7e8;background:#fff;border-radius:9px;padding:8px 11px;font-size:11px;font-weight:700;color:#52676c;cursor:pointer}.subnav button:hover{border-color:#0e5651;color:#0e5651}
+.sectionTitle{font-size:17px;font-weight:800;color:#15343a;margin:0}.lockNote{font-size:11px;padding:7px 10px;border-radius:8px;background:#fff5df;color:#866317;border:1px solid #f2e0ad}
+@media(max-width:1100px){.moduleGrid{grid-template-columns:repeat(2,1fr)}.kpiGrid{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.moduleGrid,.kpiGrid{grid-template-columns:1fr}}
+
+
+.builderGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.builderPreview{border:1px dashed #bdcbce;border-radius:14px;padding:18px;background:#fafcfc}.brandPreview{display:flex;gap:14px;align-items:center}.brandPreview img{width:70px;height:70px;object-fit:contain;border-radius:12px;border:1px solid #e1e8e9;background:#fff}.customFieldRow{display:grid;grid-template-columns:1.4fr 1fr 1fr .6fr auto;gap:8px;align-items:end;margin-bottom:8px}.customModuleBtn{position:relative}.adminBadge{font-size:10px;border:1px solid #e4c98d;background:#fff7e7;color:#805f16;border-radius:999px;padding:3px 7px}.imagePreview{max-width:160px;max-height:110px;border-radius:10px;margin-top:8px}.dragHint{font-size:11px;color:#718086}.builderList{display:grid;gap:8px}.builderItem{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #e1e8e9;border-radius:11px;padding:10px;background:#fff}.builderItem .meta{font-size:11px;color:#718086}@media(max-width:800px){.builderGrid{grid-template-columns:1fr}.customFieldRow{grid-template-columns:1fr 1fr}}
+
+/* ASG PRO visual system */
+.sidebar{background:linear-gradient(180deg,var(--asg-primary),var(--asg-sidebar))!important;box-shadow:10px 0 35px rgba(11,38,42,.13)}
+.mark{overflow:hidden;position:relative}.mark img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}.mark.hasLogo{background:#fff;padding:4px}
+.topbar{backdrop-filter:blur(12px);box-shadow:0 4px 20px rgba(17,41,48,.04)}
+.pagehead{background:linear-gradient(135deg,rgba(14,86,81,.055),rgba(216,117,60,.035));border:1px solid #e2eaeb;border-radius:18px;padding:22px;margin-bottom:18px}
+.panel{border-radius:17px;box-shadow:0 8px 28px rgba(17,41,48,.055)}
+.kpi{position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;width:70px;height:70px;border-radius:50%;right:-25px;top:-25px;background:rgba(14,86,81,.055)}
+.proHero{border-radius:20px;padding:25px;background:linear-gradient(120deg,var(--asg-primary),var(--asg-sidebar));color:#fff;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden;position:relative}.proHero:after{content:"ASG";position:absolute;right:30px;font-size:95px;font-weight:900;opacity:.045}.proHero h2{font-size:24px;margin:0 0 6px}.proHero p{opacity:.78;margin:0;font-size:12px}.heroLogo{width:74px;height:74px;border-radius:16px;background:#fff;padding:7px;object-fit:contain;display:none}.quickGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}.quickBtn{border:1px solid #e0e8e9;background:#fff;border-radius:13px;padding:13px;text-align:left;cursor:pointer;font-weight:800;color:#27454a}.quickBtn small{display:block;color:#7a8c90;font-weight:500;margin-top:4px}.quickBtn:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(17,41,48,.07)}.expiryWarn{border-left:4px solid #d8753c}.proFooter{text-align:center;color:#849397;font-size:10px;padding:20px}.sectionSep{height:1px;background:#e6ecee;margin:6px 0}.logoTextSmall{font-size:10px!important;opacity:.65}@media(max-width:1100px){.quickGrid{grid-template-columns:repeat(2,1fr)}}
+
+/* Employee-only final interface */
+#login .hero{position:relative;overflow:hidden}
+#login .hero:after{content:"ASG";position:absolute;right:-18px;bottom:-45px;font-size:170px;font-weight:900;opacity:.035}
+#login .card{border-top:4px solid var(--asg-accent)}
+.internalSeal{margin-top:14px;padding:10px 12px;border-radius:10px;background:#f5f8f8;border:1px solid #dfe8e9;color:#5e7075;font-size:11px;line-height:1.55}
+.internalSeal b{color:#173d42}
+@media(max-width:760px){
+  #login{display:block!important;min-height:100vh;background:linear-gradient(180deg,var(--asg-sidebar),var(--asg-primary));padding:0}
+  #login .hero{min-height:auto;padding:34px 22px 24px;border-radius:0;background:transparent;color:#fff}
+  #login .hero h1{font-size:28px;line-height:1.12;margin-top:34px}
+  #login .hero p{max-width:100%;font-size:12px;line-height:1.65}
+  #login .loginSide{padding:0 14px 28px;background:transparent}
+  #login .card{width:100%;max-width:none;border-radius:20px;padding:22px}
+  .sidebar{width:250px}
+  .main{min-width:0}
+  .topbar{padding:10px 12px}
+  .page{padding:12px}
+  .pagehead{padding:16px}
+  .kpiGrid{grid-template-columns:repeat(2,1fr)!important}
+  .quickGrid{grid-template-columns:repeat(2,1fr)!important}
+  .moduleGrid{grid-template-columns:1fr!important}
+  .formgrid{grid-template-columns:1fr!important}
+  table{font-size:11px}
+}
+
+</style>
+</head>
+<body>
+
+<section id="login">
+  <div class="hero">
+    <div class="logo"><div class="mark" id="loginMark"><span>ASG</span><img id="loginLogo" style="display:none" alt="ASG Logo"></div><div><strong>ASG Employee Portal</strong><small>Asalat Sinhareeb Company</small></div></div>
+    <h1>Asalat Sinhareeb Company</h1>
+    <p>General Transportation · General Contracting · Training & Human Resources Development<br>Secure internal operations portal for authorized company personnel.</p>
+  </div>
+  <div class="loginSide">
+    <div class="card">
+      <div class="eyebrow">Authorized ASG Personnel Only</div>
+      <h2>Employee Sign In</h2>
+      <p class="muted">Use the employee account issued by ASG Administration. Public registration is disabled.</p>
+      <div id="loginError" class="error hidden">Invalid email or password.</div>
+      <label>Email</label><input id="email" type="email" placeholder="name@company.com">
+      <label>Password</label><input id="password" type="password" placeholder="Password">
+      <button class="btn primary wide" onclick="login()">Sign in</button>
+      <div class="note"><b>Internal Company System</b><br>Access is restricted to active employees and authorized management accounts. Contact ASG Administration for account access.</div>
+      <div class="internalSeal"><b>Security Notice</b><br>Company operational, personnel and financial data are confidential. Unauthorized access is prohibited.</div>
+    </div>
+  </div>
+</section>
+
+<section id="app" class="hidden">
+  <aside class="sidebar">
+    <div class="brand logo"><div class="mark" id="sideMark"><span>ASG</span><img id="sideLogo" style="display:none" alt="ASG Logo"></div><div><strong>ASG Employee Portal</strong><small>Asalat Sinhareeb Company</small></div></div>
+    <div class="profile"><strong id="profileName">ASG User</strong><small id="profileRole">User</small></div>
+    <div class="nav">
+      <div class="navTitle">Executive</div>
+      <button class="active" onclick="showPage('dashboard',this)">⌂ Executive Dashboard</button>
+      <div class="navTitle">Operations</div>
+      <button onclick="showPage('fleet',this)">▣ Fleet & Transportation</button>
+      <button onclick="showPage('equipment',this)">⚙ Equipment & Lifting</button>
+      <button onclick="showPage('employees',this)">♟ Manpower</button>
+      <button onclick="showPage('journeys',this)">⇄ Journey Management</button>
+      <button onclick="showPage('materials',this)">▤ Material Movement</button>
+      <button onclick="showPage('water',this)">◉ Water Supply</button>
+      <button onclick="showPage('maintenance',this)">⚒ Maintenance</button>
+      <button onclick="showPage('fuel',this)">◒ Fuel Control</button>
+      <button onclick="showPage('procurement',this)">▥ Procurement</button>
+      <button onclick="showPage('suppliers',this)">◇ Suppliers</button>
+      <button onclick="showPage('subcontractors',this)">⌂ Subcontractors</button>
+      <div class="navTitle">QHSE</div>
+      <button onclick="showPage('hse',this)">⛨ HSE & Traffic Safety</button>
+      <button onclick="showPage('quality',this)">✓ Quality Management</button>
+      <div class="navTitle">Administration</div>
+      <button onclick="showPage('employees',this)">♟ Personnel Records</button>
+      <button onclick="showPage('permits',this)">▧ Permits & Badges</button>
+      <button onclick="showPage('ppe',this)">◈ PPE & Uniforms</button>
+      <button onclick="showPage('certificates',this)">★ Certificates & Training</button>
+      <button onclick="showPage('contracts',this)">▰ Contracts</button>
+      <button onclick="showPage('approvals',this)">✓ Approvals</button>
+      <div class="navTitle financeNav">Finance</div>
+      <button class="financeNav" onclick="showPage('timesheets',this)">▤ Client Timesheets</button>
+      <button class="financeNav" onclick="showPage('rates',this)">$ Rate Cards</button>
+      <button class="financeNav" onclick="showPage('invoices',this)">▧ Invoices & Receipts</button>
+      <button class="financeNav" onclick="showPage('payroll',this)">¤ Payroll</button>
+      <button class="financeNav" onclick="showPage('expenses',this)">− Expenses</button>
+      <div class="navTitle">System</div>
+      <button onclick="showPage('documents',this)">▣ Document Center</button>
+      <button class="adminNav" onclick="showPage('users',this)">⚙ Users & Permissions</button>
+      <button class="adminNav" onclick="showPage('builder',this)">✦ Customize System</button>
+      <button class="adminNav" onclick="showPage('settings',this)">⚙ Company Settings</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar"><strong id="pageTitle">Daily Operation Dashboard</strong><div class="status"><span class="dot"></span>System Online &nbsp; <span id="clock"></span></div></div>
+    <div class="content">
+      <div id="dashboard" class="page">
+        <div class="pagehead"><div><div class="eyebrow">ASG Enterprise Control Center</div><h1>Executive Dashboard</h1><p>Transportation, logistics, manpower, QHSE and commercial performance in one secure system.</p></div><div class="datebox" id="todayBox"></div></div>
+        <div class="proHero"><div><div class="eyebrow" style="color:#cce3df">ASALAT SINHAREEB COMPANY · EMPLOYEE PORTAL</div><h2>Transportation & Logistics Command Center</h2><p>Personnel transportation · Material movement · Lifting operations · Water supply · Manpower · QHSE · Commercial control</p></div><img id="dashLogo" class="heroLogo" alt="Company Logo"></div>
+<div class="quickGrid"><button class="quickBtn" onclick="openModule('fleet')">Fleet<small>Vehicles & compliance</small></button><button class="quickBtn" onclick="openModule('employees')">Manpower<small>People & competency</small></button><button class="quickBtn" onclick="openModule('maintenance')">Maintenance<small>Assets & due dates</small></button><button class="quickBtn" onclick="openModule('hse')">QHSE<small>Safety & assurance</small></button><button class="quickBtn financeOnly" onclick="openModule('timesheets')">Commercial<small>Timesheets & margins</small></button></div>
+<div class="kpiGrid">
+          <div class="kpi"><span>Pickups</span><strong id="kPickups">173</strong></div>
+          <div class="kpi"><span>Buses</span><strong id="kBuses">42</strong></div>
+          <div class="kpi"><span>Trailers</span><strong id="kTrailers">5</strong></div>
+          <div class="kpi"><span>Forklifts</span><strong id="kForklifts">4</strong></div>
+          <div class="kpi"><span>Mobile Cranes</span><strong id="kCranes">1</strong></div>
+          <div class="kpi"><span>Active Contracts</span><strong id="kContracts">2</strong></div>
+        </div>
+        <div class="panel"><div class="panelHead"><div><h3>Enterprise Modules</h3><div class="muted">Centralized control across company functions</div></div></div>
+          <div class="moduleGrid">
+            <div class="moduleCard"><div class="moduleIcon">TR</div><h3>Fleet & Transportation</h3><p>Pickups, buses, trailers, drivers, compliance and operational status.</p><button class="btn secondary" onclick="openModule('fleet')">Open</button></div>
+            <div class="moduleCard"><div class="moduleIcon">OP</div><h3>Logistics Operations</h3><p>Journeys, material movements, warehouse lifting and water deliveries.</p><button class="btn secondary" onclick="openModule('materials')">Open</button></div>
+            <div class="moduleCard"><div class="moduleIcon">HS</div><h3>HSE & Traffic Safety</h3><p>Incidents, TBT, inspections, HIRA/JSA, audits, lifting plans and CAPA.</p><button class="btn secondary" onclick="openModule('hse')">Open</button></div>
+            <div class="moduleCard"><div class="moduleIcon">QA</div><h3>Quality Management</h3><p>NCR, audits, service quality, corrective actions and document review.</p><button class="btn secondary" onclick="openModule('quality')">Open</button></div>
+            <div class="moduleCard"><div class="moduleIcon">HR</div><h3>Manpower & HR</h3><p>Workers, foremen, drivers, operators, permits, PPE and competency.</p><button class="btn secondary" onclick="openModule('employees')">Open</button></div>
+            <div class="moduleCard"><div class="moduleIcon">$</div><h3>Commercial & Finance</h3><p>Client rates versus company pay rates, timesheets, invoices and payroll.</p><button class="btn secondary financeOnly" onclick="openModule('timesheets')">Open</button></div>
+            <div class="moduleCard"><div class="moduleIcon">DC</div><h3>Document Control</h3><p>Central private storage for contracts, reports, certificates and evidence.</p><button class="btn secondary" onclick="openModule('documents')">Open</button></div>
+            <div class="moduleCard"><div class="moduleIcon">AC</div><h3>Access Control</h3><p>Role-based permissions, user administration and protected financial data.</p><button class="btn secondary adminOnly" onclick="openModule('users')">Open</button></div>
+          </div>
+        </div>
+        <div class="panel"><div class="panelHead"><h3>Recent Operations</h3><span class="muted">Live database records</span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Contract</th><th>Equipment / Unit</th><th>Operator</th><th>Location</th><th>Status</th></tr></thead><tbody id="recentBody"></tbody></table></div></div>
+      </div>
+
+<div id="daily" class="page hidden" style="display:none">
+        <div class="pagehead"><div><div class="eyebrow">Contract / Rental Management</div><h1>Daily Operation Record</h1><p>Add and review daily activities.</p></div></div>
+        <div class="panel">
+          <div class="panelHead"><h3>Add Daily Record</h3></div>
+          <div class="formgrid">
+            <div><label>Operation Date *</label><input id="dDate" type="date"></div>
+            <div><label>Contract *</label><select id="dContract"><option>Warehouse Material Handling</option><option>Personal Transportation</option></select></div>
+            <div><label>Category *</label><select id="dCategory"><option>Equipment Rental</option><option>Transportation</option><option>Manpower</option><option>Logistics</option></select></div>
+            <div><label>Equipment / Unit *</label><input id="dEquipment" placeholder="e.g. 50T Mobile Crane"></div>
+            <div><label>Operator / Driver</label><input id="dOperator" placeholder="Full name"></div>
+            <div><label>Location</label><input id="dLocation" placeholder="Warehouse / CPF / Base Camp"></div>
+            <div><label>Start Time</label><input id="dStart" type="time"></div>
+            <div><label>End Time</label><input id="dEnd" type="time"></div>
+            <div><label>Status</label><select id="dStatus"><option>Completed</option><option>In Progress</option><option>Pending</option><option>Cancelled</option></select></div>
+            <div class="full"><label>Notes</label><textarea id="dNotes" rows="3"></textarea></div>
+          </div>
+          <div class="actions"><button class="btn primary" onclick="saveRecord()">Save Daily Record</button></div>
+        </div>
+        <div class="panel"><div class="panelHead"><h3>Operation Records</h3><button class="btn" onclick="window.print()">Print</button></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Contract</th><th>Category</th><th>Equipment</th><th>Operator</th><th>Location</th><th>Time</th><th>Status</th><th>Notes</th></tr></thead><tbody id="recordsBody"></tbody></table></div></div>
+      </div>
+
+      <div id="monthly" class="page hidden" style="display:none">
+        <div class="pagehead"><div><div class="eyebrow">Reports</div><h1>Monthly Operation Summary</h1><p>Automatic summary grouped by month and contract.</p></div><button class="btn" onclick="window.print()">Print Report</button></div>
+        <div class="panel"><div class="tablewrap"><table><thead><tr><th>Month</th><th>Contract</th><th>Total Records</th><th>Completed</th><th>Completion</th></tr></thead><tbody id="monthlyBody"></tbody></table></div></div>
+      </div>
+
+
+      <div id="employees" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Manpower / Personnel</h1><p>Add, edit and manage employees, drivers, laborers, foremen and equipment operators. Use Edit beside any saved record to modify it.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Full Name *</label><input data-f="full_name"></div><div><label>Job Title *</label><input data-f="job_title"></div><div><label>Worker Type</label><select data-f="worker_type"><option>Employee</option><option>Driver</option><option>Laborer</option><option>Foreman</option><option>Forklift Driver</option><option>Operator</option><option>Admin</option><option>Other</option></select></div><div><label>Department</label><input data-f="department"></div><div><label>Mobile</label><input data-f="mobile"></div><div><label>License No.</label><input data-f="license_no"></div><div><label>License Expiry</label><input data-f="license_expiry" type="date"></div><div><label>DDC Expiry</label><input data-f="ddc_expiry" type="date"></div><div><label>Daily Pay Rate</label><input data-f="daily_pay_rate" type="number" step="0.01"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('employees')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Personnel & Manpower Register</h3><span class="muted" id="employeesCount"></span></div><div class="tablewrap"><table><thead><tr><th>Name</th><th>Job</th><th>Type</th><th>Department</th><th>License</th><th>DDC</th><th>Status</th></tr></thead><tbody id="employeesBody"></tbody></table></div></div></div>
+<div id="fleet" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Fleet & Transportation</h1><p>Manage pickups, buses, trailers, water tankers, drivers and vehicle compliance.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Unit No. *</label><input data-f="unit_no"></div><div><label>Vehicle Type</label><select data-f="vehicle_type"><option>Pickup</option><option>Bus</option><option>Trailer</option><option>Water Tanker</option><option>Other</option></select></div><div><label>Plate No.</label><input data-f="plate_no"></div><div><label>Owner</label><input data-f="owner_name"></div><div><label>Model</label><input data-f="model"></div><div><label>Year</label><input data-f="year" type="number"></div><div><label>Registration Expiry</label><input data-f="registration_expiry" type="date"></div><div><label>Insurance Expiry</label><input data-f="insurance_expiry" type="date"></div><div><label>Inspection Expiry</label><input data-f="inspection_expiry" type="date"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('fleet')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Fleet & Transportation Register</h3><span class="muted" id="fleetCount"></span></div><div class="tablewrap"><table><thead><tr><th>Unit</th><th>Type</th><th>Plate</th><th>Owner</th><th>Model</th><th>Inspection</th><th>Status</th></tr></thead><tbody id="fleetBody"></tbody></table></div></div></div>
+<div id="equipment" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Equipment & Lifting</h1><p>Forklifts, mobile crane, loader/shovel, certifications and operational readiness.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Asset No. *</label><input data-f="asset_no"></div><div><label>Equipment Type</label><select data-f="equipment_type"><option>Forklift</option><option>Crane</option><option>Loader</option><option>Shovel</option><option>Other</option></select></div><div><label>Description *</label><input data-f="description"></div><div><label>Capacity</label><input data-f="capacity"></div><div><label>Inspection Expiry</label><input data-f="inspection_expiry" type="date"></div><div><label>Certification Expiry</label><input data-f="certification_expiry" type="date"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('equipment')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Equipment & Lifting Register</h3><span class="muted" id="equipmentCount"></span></div><div class="tablewrap"><table><thead><tr><th>Asset</th><th>Equipment</th><th>Description</th><th>Capacity</th><th>Inspection</th><th>Certificate</th><th>Status</th></tr></thead><tbody id="equipmentBody"></tbody></table></div></div></div>
+<div id="hse" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>HSE & Traffic Safety</h1><p>Incidents, near misses, TBTs, training, inspections, HIRA/JSA, lifting plans, audits and CAPA.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Date *</label><input data-f="record_date" type="date"></div><div><label>Record Type</label><select data-f="record_type"><option>Incident</option><option>Near Miss</option><option>TBT</option><option>Training</option><option>Inspection</option><option>HIRA</option><option>JSA</option><option>Lifting Plan</option><option>Emergency Drill</option><option>Audit</option><option>CAPA</option><option>Vehicle Inspection</option><option>Other</option></select></div><div><label>Title *</label><input data-f="title"></div><div><label>Location</label><input data-f="location"></div><div><label>Severity</label><input data-f="severity"></div><div><label>Responsible Person</label><input data-f="responsible_person"></div><div><label>Due Date</label><input data-f="due_date" type="date"></div><div><label>Description</label><input data-f="description"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('hse')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>HSE & Traffic Safety Register</h3><span class="muted" id="hseCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Title</th><th>Location</th><th>Severity</th><th>Status</th><th>Responsible</th></tr></thead><tbody id="hseBody"></tbody></table></div></div></div>
+<div id="quality" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Quality Management</h1><p>NCRs, inspections, audits, service quality, supplier evaluation and corrective actions.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Date *</label><input data-f="record_date" type="date"></div><div><label>Record Type</label><select data-f="record_type"><option>NCR</option><option>Inspection</option><option>Service Quality</option><option>Document Review</option><option>Corrective Action</option><option>Audit</option><option>Supplier Evaluation</option><option>Other</option></select></div><div><label>Title *</label><input data-f="title"></div><div><label>Responsible Person</label><input data-f="responsible_person"></div><div><label>Due Date</label><input data-f="due_date" type="date"></div><div><label>Description</label><input data-f="description"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('quality')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Quality Management Register</h3><span class="muted" id="qualityCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Title</th><th>Status</th><th>Responsible</th><th>Due Date</th></tr></thead><tbody id="qualityBody"></tbody></table></div></div></div>
+<div id="journeys" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Journey Management</h1><p>Plan and record personnel movements, routes, approvals and journey risk controls.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Journey Date *</label><input data-f="journey_date" type="date"></div><div><label>Origin *</label><input data-f="origin"></div><div><label>Destination *</label><input data-f="destination"></div><div><label>Purpose</label><input data-f="purpose"></div><div><label>Departure</label><input data-f="departure_time" type="time"></div><div><label>Return</label><input data-f="return_time" type="time"></div><div><label>Passengers</label><input data-f="passenger_count" type="number"></div><div><label>Risk Level</label><input data-f="risk_level"></div><div><label>Approved By</label><input data-f="approved_by"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('journeys')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Journey Management Register</h3><span class="muted" id="journeysCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Origin</th><th>Destination</th><th>Purpose</th><th>Passengers</th><th>Risk</th><th>Status</th></tr></thead><tbody id="journeysBody"></tbody></table></div></div></div>
+<div id="materials" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Material Movement</h1><p>Track warehouse transfers, trailers, lifting equipment, cargo and movement status.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Date *</label><input data-f="movement_date" type="date"></div><div><label>From *</label><input data-f="from_location"></div><div><label>To *</label><input data-f="to_location"></div><div><label>Material *</label><input data-f="material_description"></div><div><label>Quantity</label><input data-f="quantity" type="number" step="0.01"></div><div><label>Unit</label><input data-f="unit"></div><div><label>Lifting Plan Ref.</label><input data-f="lifting_plan_ref"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('materials')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Material Movement Register</h3><span class="muted" id="materialsCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>From</th><th>To</th><th>Material</th><th>Qty</th><th>Lifting Plan</th><th>Status</th></tr></thead><tbody id="materialsBody"></tbody></table></div></div></div>
+<div id="water" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Water Supply & Delivery</h1><p>Track water tanker deliveries, destinations, quantities, tickets and receiving parties.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Date *</label><input data-f="delivery_date" type="date"></div><div><label>Source</label><input data-f="source_location"></div><div><label>Destination *</label><input data-f="destination_location"></div><div><label>Quantity m³ *</label><input data-f="quantity_m3" type="number" step="0.01"></div><div><label>Ticket No.</label><input data-f="ticket_no"></div><div><label>Receiver</label><input data-f="receiver_name"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('water')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Water Supply & Delivery Register</h3><span class="muted" id="waterCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Source</th><th>Destination</th><th>m³</th><th>Ticket</th><th>Receiver</th><th>Status</th></tr></thead><tbody id="waterBody"></tbody></table></div></div></div>
+<div id="contracts" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Contracts Management</h1><p>Client contracts, scope, dates, status and commercial references.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Contract Name *</label><input data-f="contract_name"></div><div><label>Client *</label><input data-f="client"></div><div><label>Contract Code</label><input data-f="contract_code"></div><div><label>Start Date</label><input data-f="start_date" type="date"></div><div><label>End Date</label><input data-f="end_date" type="date"></div><div><label>Scope</label><input data-f="scope"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('contracts')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Contracts Management Register</h3><span class="muted" id="contractsCount"></span></div><div class="tablewrap"><table><thead><tr><th>Contract</th><th>Client</th><th>Code</th><th>Start</th><th>End</th><th>Status</th></tr></thead><tbody id="contractsBody"></tbody></table></div></div></div>
+<div id="permits" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Permits & Security Badges</h1><p>Issue and monitor worker/driver permits and site access badges.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Employee ID *</label><input data-f="employee_id" type="number"></div><div><label>Permit Type *</label><input data-f="permit_type" placeholder="Driver / Work / Site Access"></div><div><label>Permit No.</label><input data-f="permit_no"></div><div><label>Issue Date</label><input data-f="issue_date" type="date"></div><div><label>Expiry Date</label><input data-f="expiry_date" type="date"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('permits')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Permits & Security Badges Register</h3><span class="muted" id="permitsCount"></span></div><div class="tablewrap"><table><thead><tr><th>Employee ID</th><th>Type</th><th>Permit No.</th><th>Issue</th><th>Expiry</th><th>Status</th></tr></thead><tbody id="permitsBody"></tbody></table></div></div></div>
+<div id="ppe" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>PPE & Uniform Issue</h1><p>Record safety clothing, uniforms, PPE quantities, sizes and replacement dates.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Employee ID *</label><input data-f="employee_id" type="number"></div><div><label>Issue Date *</label><input data-f="issue_date" type="date"></div><div><label>Item *</label><input data-f="item" placeholder="Coverall / Helmet / Shoes / Vest"></div><div><label>Quantity</label><input data-f="quantity" type="number" step="0.01"></div><div><label>Size</label><input data-f="size"></div><div><label>Replacement Due</label><input data-f="replacement_due" type="date"></div><div><label>Issued By</label><input data-f="issued_by"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('ppe')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>PPE & Uniform Issue Register</h3><span class="muted" id="ppeCount"></span></div><div class="tablewrap"><table><thead><tr><th>Employee ID</th><th>Date</th><th>Item</th><th>Qty</th><th>Size</th><th>Replacement</th><th>Issued By</th></tr></thead><tbody id="ppeBody"></tbody></table></div></div></div>
+<div id="certificates" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Certificates & Training</h1><p>Driver/operator competency, DDC, licenses, training and certificate expiry tracking.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Employee ID *</label><input data-f="employee_id" type="number"></div><div><label>Certificate Type *</label><input data-f="certificate_type"></div><div><label>Certificate No.</label><input data-f="certificate_no"></div><div><label>Issuer</label><input data-f="issuer"></div><div><label>Issue Date</label><input data-f="issue_date" type="date"></div><div><label>Expiry Date</label><input data-f="expiry_date" type="date"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('certificates')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Certificates & Training Register</h3><span class="muted" id="certificatesCount"></span></div><div class="tablewrap"><table><thead><tr><th>Employee ID</th><th>Certificate</th><th>No.</th><th>Issuer</th><th>Issue</th><th>Expiry</th><th>Status</th></tr></thead><tbody id="certificatesBody"></tbody></table></div></div></div>
+<div id="rates" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Client / Company Rate Cards</h1><p>Protected commercial rates: what the client pays ASG versus what ASG pays its resources.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Description *</label><input data-f="description"></div><div><label>Item Type *</label><input data-f="item_type" placeholder="Labor / Pickup / Bus / Crane"></div><div><label>Unit</label><input data-f="unit" value="day"></div><div><label>Client Rate *</label><input data-f="client_rate" type="number" step="0.01"></div><div><label>Company Pay Rate *</label><input data-f="company_pay_rate" type="number" step="0.01"></div><div><label>Currency</label><input data-f="currency" value="USD"></div><div><label>Effective From</label><input data-f="effective_from" type="date"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('rates')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Client / Company Rate Cards Register</h3><span class="muted" id="ratesCount"></span></div><div class="tablewrap"><table><thead><tr><th>Description</th><th>Type</th><th>Unit</th><th>Client Rate</th><th>ASG Pay Rate</th><th>Margin</th><th>Currency</th></tr></thead><tbody id="ratesBody"></tbody></table></div></div></div>
+<div id="timesheets" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>PetroChina Client Timesheets</h1><p>Protected monthly timesheets used for client billing and comparison with ASG payroll cost.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Timesheet No.</label><input data-f="timesheet_no"></div><div><label>Period Month *</label><input data-f="period_month" type="date"></div><div><label>Client</label><input data-f="client" value="PetroChina"></div><div><label>Client Total</label><input data-f="client_total" type="number" step="0.01"></div><div><label>ASG Payroll Total</label><input data-f="company_payroll_total" type="number" step="0.01"></div><div><label>Expenses</label><input data-f="expenses_total" type="number" step="0.01"></div><div><label>Currency</label><input data-f="currency" value="USD"></div><div><label>FX Rate</label><input data-f="fx_rate" type="number" step="0.0001"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('timesheets')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>PetroChina Client Timesheets Register</h3><span class="muted" id="timesheetsCount"></span></div><div class="tablewrap"><table><thead><tr><th>Period</th><th>No.</th><th>Client</th><th>Client Total</th><th>ASG Cost</th><th>Expenses</th><th>Margin</th><th>Status</th></tr></thead><tbody id="timesheetsBody"></tbody></table></div></div></div>
+<div id="invoices" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Invoices & Receipts</h1><p>Track invoices submitted to clients, received amounts and payment status.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Invoice No. *</label><input data-f="invoice_no"></div><div><label>Invoice Date *</label><input data-f="invoice_date" type="date"></div><div><label>Amount *</label><input data-f="amount" type="number" step="0.01"></div><div><label>Currency</label><input data-f="currency" value="USD"></div><div><label>Received Amount</label><input data-f="received_amount" type="number" step="0.01"></div><div><label>Received Date</label><input data-f="received_date" type="date"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('invoices')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Invoices & Receipts Register</h3><span class="muted" id="invoicesCount"></span></div><div class="tablewrap"><table><thead><tr><th>Invoice</th><th>Date</th><th>Amount</th><th>Received</th><th>Balance</th><th>Currency</th><th>Status</th></tr></thead><tbody id="invoicesBody"></tbody></table></div></div></div>
+<div id="payroll" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Payroll Management</h1><p>Protected ASG payroll runs based on internal worker/driver rates, not client rates.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Period Month *</label><input data-f="period_month" type="date"></div><div><label>Total Amount</label><input data-f="total_amount" type="number" step="0.01"></div><div><label>Currency</label><input data-f="currency" value="IQD"></div><div><label>Approved By</label><input data-f="approved_by"></div><div><label>Approved Date</label><input data-f="approved_date" type="date"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('payroll')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Payroll Management Register</h3><span class="muted" id="payrollCount"></span></div><div class="tablewrap"><table><thead><tr><th>Period</th><th>Total</th><th>Currency</th><th>Status</th><th>Approved By</th><th>Approved Date</th></tr></thead><tbody id="payrollBody"></tbody></table></div></div></div>
+<div id="expenses" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG Enterprise Portal</div><h1>Company Expenses</h1><p>Protected operating expenses with references and document evidence.</p></div></div>
+<div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Date *</label><input data-f="expense_date" type="date"></div><div><label>Category *</label><input data-f="category"></div><div><label>Description *</label><input data-f="description"></div><div><label>Amount *</label><input data-f="amount" type="number" step="0.01"></div><div><label>Currency</label><input data-f="currency" value="IQD"></div><div><label>Reference No.</label><input data-f="reference_no"></div><div><label>Approved By</label><input data-f="approved_by"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('expenses')">Save Record</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Company Expenses Register</h3><span class="muted" id="expensesCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Currency</th><th>Reference</th><th>Approved By</th></tr></thead><tbody id="expensesBody"></tbody></table></div></div></div><div id="users" class="page hidden"><div class="pagehead"><div><div class="eyebrow">System Administration</div><h1>Users & Permissions</h1><p>Create company accounts and assign controlled access by department.</p></div></div>
+<div class="panel"><div class="panelHead"><h3>Create User</h3><span class="lockNote">Administrator / Manager only</span></div><div class="formgrid"><div><label>Full Name</label><input id="uName"></div><div><label>Email</label><input id="uEmail" type="email"></div><div><label>Temporary Password</label><input id="uPass" type="password"></div><div><label>Role</label><select id="uRole"><option>viewer</option><option>operations</option><option>warehouse</option><option>hse</option><option>quality</option><option>finance</option><option>hr</option><option>manager</option><option>admin</option></select></div><div><label>Department</label><input id="uDept"></div></div><div class="actions"><button class="btn primary" onclick="createPortalUser()">Create User</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Portal Users</h3></div><div class="tablewrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Status</th></tr></thead><tbody id="usersBody"></tbody></table></div></div></div><div id="builder" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ADMIN SYSTEM BUILDER</div><h1>Customize Your System</h1><p>Change branding, add your own sections and fields, upload images, rename and arrange modules without editing the HTML code.</p></div><span class="adminBadge">ADMIN ONLY</span></div>
+<div class="builderGrid">
+<div class="panel"><div class="panelHead"><div><h3>Branding & Appearance</h3><div class="muted">Your logo, titles and system colors</div></div></div><div class="formgrid">
+<div><label>Portal Title</label><input id="bTitle"></div><div><label>Subtitle</label><input id="bSubtitle"></div><div><label>Company Display Name</label><input id="bCompany"></div><div><label>Primary Color</label><input id="bPrimary" type="color"></div><div><label>Accent Color</label><input id="bAccent" type="color"></div><div><label>Sidebar Color</label><input id="bSidebar" type="color"></div><div><label>Company Logo</label><input id="bLogo" type="file" accept="image/*"></div><div><label>Banner / Cover Image</label><input id="bBanner" type="file" accept="image/*"></div></div><div class="actions"><button class="btn primary" onclick="saveBranding()">Save Appearance</button><button class="btn secondary" onclick="resetBranding()">Reset Colors</button></div></div>
+<div class="panel"><div class="panelHead"><h3>Preview</h3></div><div class="builderPreview"><div class="brandPreview"><img id="brandLogoPreview" alt="Logo"><div><h2 id="brandTitlePreview">ASG Employee Portal</h2><div id="brandSubPreview" class="muted">Internal Transportation & Logistics Management System</div></div></div><img id="brandBannerPreview" style="width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin-top:15px;display:none"></div></div>
+</div>
+<div class="panel"><div class="panelHead"><div><h3>Create Your Own Section / Module</h3><div class="muted">Example: Fuel Management, Maintenance, Camps, Procurement, Water Tankers, Subcontractors...</div></div></div><div class="formgrid"><div><label>Section Name *</label><input id="cmName" placeholder="e.g. Maintenance"></div><div><label>Menu Group</label><select id="cmGroup"><option>Operations</option><option>QHSE</option><option>Administration</option><option>Finance</option><option>Custom</option></select></div><div><label>Icon / Symbol</label><input id="cmIcon" value="▦"></div><div><label>Order</label><input id="cmOrder" type="number" value="100"></div><div class="full"><label>Description</label><input id="cmDesc"></div></div><div class="actions"><button class="btn primary" onclick="createCustomModule()">+ Add Section</button></div></div>
+<div class="panel"><div class="panelHead"><div><h3>Your Custom Sections</h3><div class="dragHint">Change order, rename, disable or delete any section.</div></div></div><div id="customModuleList" class="builderList"></div></div>
+<div class="panel"><div class="panelHead"><div><h3>Build Fields for Selected Section</h3><div class="muted">Select a section below, then add whatever input fields you need.</div></div></div><div class="formgrid"><div><label>Section</label><select id="cfModule" onchange="loadCustomFields()"></select></div><div><label>Field Label *</label><input id="cfLabel" placeholder="e.g. Vehicle Number"></div><div><label>Field Type</label><select id="cfType"><option value="text">Text</option><option value="number">Number</option><option value="date">Date</option><option value="time">Time</option><option value="textarea">Long Text</option><option value="select">Dropdown</option><option value="checkbox">Checkbox</option></select></div><div><label>Dropdown Options</label><input id="cfOptions" placeholder="Active, Standby, Maintenance"></div><div><label>Order</label><input id="cfOrder" type="number" value="100"></div><div><label>Required</label><select id="cfRequired"><option value="false">No</option><option value="true">Yes</option></select></div></div><div class="actions"><button class="btn primary" onclick="createCustomField()">+ Add Field</button></div><div id="customFieldList" class="builderList" style="margin-top:14px"></div></div>
+</div>
+<div id="settings" class="page hidden"><div class="pagehead"><div><div class="eyebrow">Administration</div><h1>Company Settings</h1><p>Master fleet and manpower figures used throughout the executive dashboard.</p></div></div><div class="panel"><div class="formgrid"><div><label>Pickups</label><input id="setPickups" type="number"></div><div><label>Buses</label><input id="setBuses" type="number"></div><div><label>Trailers</label><input id="setTrailers" type="number"></div><div><label>Forklifts</label><input id="setForklifts" type="number"></div><div><label>Cranes</label><input id="setCranes" type="number"></div><div><label>Loader / Shovel</label><input id="setLoaders" type="number"></div><div><label>Laborers</label><input id="setLaborers" type="number"></div><div><label>Foremen</label><input id="setForemen" type="number"></div><div><label>Electric Forklift Drivers</label><input id="setEFDrivers" type="number"></div></div><div class="actions"><button class="btn primary" onclick="saveSettings()">Save Company Settings</button></div></div></div>
+<div id="maintenance" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG ENTERPRISE CONTROL</div><h1>Maintenance Management</h1><p>Preventive and corrective maintenance for fleet and lifting equipment, including costs and next-due control</p></div></div><div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Date *</label><input data-f="maintenance_date" type="date"></div><div><label>Asset Kind</label><select data-f="asset_kind"><option>Vehicle</option><option>Equipment</option></select></div><div><label>Asset ID</label><input data-f="asset_id" type="number"></div><div><label>Maintenance Type *</label><input data-f="maintenance_type" placeholder="Preventive / Corrective / Tire / Oil"></div><div><label>Description *</label><input data-f="description"></div><div><label>Odometer / Hours</label><input data-f="odometer_or_hours" type="number" step="0.01"></div><div><label>Vendor</label><input data-f="vendor"></div><div><label>Cost</label><input data-f="cost" type="number" step="0.01"></div><div><label>Currency</label><input data-f="currency" value="IQD"></div><div><label>Next Due</label><input data-f="next_due_date" type="date"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('maintenance')">Save Record</button></div></div><div class="panel"><div class="panelHead"><h3>Maintenance Management Register</h3><span class="muted" id="maintenanceCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Asset</th><th>Type</th><th>Description</th><th>Vendor</th><th>Cost</th><th>Next Due</th><th>Status</th></tr></thead><tbody id="maintenanceBody"></tbody></table></div></div></div>
+<div id="fuel" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG ENTERPRISE CONTROL</div><h1>Fuel Control</h1><p>Fuel consumption, tickets, suppliers and operating cost control for vehicles and equipment</p></div></div><div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Date *</label><input data-f="record_date" type="date"></div><div><label>Asset Kind</label><select data-f="asset_kind"><option>Vehicle</option><option>Equipment</option></select></div><div><label>Asset ID</label><input data-f="asset_id" type="number"></div><div><label>Liters *</label><input data-f="quantity_liters" type="number" step="0.01"></div><div><label>Unit Price</label><input data-f="unit_price" type="number" step="0.01"></div><div><label>Odometer / Hours</label><input data-f="odometer_or_hours" type="number" step="0.01"></div><div><label>Supplier</label><input data-f="supplier"></div><div><label>Ticket No.</label><input data-f="ticket_no"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('fuel')">Save Record</button></div></div><div class="panel"><div class="panelHead"><h3>Fuel Control Register</h3><span class="muted" id="fuelCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Asset</th><th>Liters</th><th>Unit Price</th><th>Total</th><th>Supplier</th><th>Ticket</th></tr></thead><tbody id="fuelBody"></tbody></table></div></div></div>
+<div id="suppliers" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG ENTERPRISE CONTROL</div><h1>Suppliers Management</h1><p>Approved vendors and service providers for logistics, maintenance, PPE and procurement</p></div></div><div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Supplier Name *</label><input data-f="supplier_name"></div><div><label>Service Type</label><input data-f="service_type"></div><div><label>Contact Person</label><input data-f="contact_person"></div><div><label>Mobile</label><input data-f="mobile"></div><div><label>Email</label><input data-f="email" type="email"></div><div><label>Address</label><input data-f="address"></div><div><label>Rating</label><input data-f="rating" type="number" min="0" max="5" step="0.1"></div><div><label>Notes</label><input data-f="notes"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('suppliers')">Save Record</button></div></div><div class="panel"><div class="panelHead"><h3>Suppliers Management Register</h3><span class="muted" id="suppliersCount"></span></div><div class="tablewrap"><table><thead><tr><th>Supplier</th><th>Service</th><th>Contact</th><th>Mobile</th><th>Status</th><th>Rating</th></tr></thead><tbody id="suppliersBody"></tbody></table></div></div></div>
+<div id="procurement" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG ENTERPRISE CONTROL</div><h1>Procurement Requests</h1><p>Internal purchasing requests, approvals, suppliers, required dates and receiving status</p></div></div><div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Request Date *</label><input data-f="request_date" type="date"></div><div><label>Request No.</label><input data-f="request_no"></div><div><label>Department</label><input data-f="department"></div><div><label>Requested By</label><input data-f="requested_by"></div><div><label>Item / Service *</label><input data-f="item_description"></div><div><label>Quantity</label><input data-f="quantity" type="number" step="0.01"></div><div><label>Unit</label><input data-f="unit"></div><div><label>Estimated Cost</label><input data-f="estimated_cost" type="number" step="0.01"></div><div><label>Currency</label><input data-f="currency" value="IQD"></div><div><label>Required Date</label><input data-f="required_date" type="date"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('procurement')">Save Record</button></div></div><div class="panel"><div class="panelHead"><h3>Procurement Requests Register</h3><span class="muted" id="procurementCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Request</th><th>Department</th><th>Item</th><th>Qty</th><th>Cost</th><th>Required</th><th>Status</th></tr></thead><tbody id="procurementBody"></tbody></table></div></div></div>
+<div id="subcontractors" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG ENTERPRISE CONTROL</div><h1>Subcontractor Control</h1><p>Commercial, HSE and quality oversight of subcontracted companies and service providers</p></div></div><div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Company Name *</label><input data-f="company_name"></div><div><label>Service Scope</label><input data-f="service_scope"></div><div><label>Contact Person</label><input data-f="contact_person"></div><div><label>Mobile</label><input data-f="mobile"></div><div><label>Contract Ref.</label><input data-f="contract_ref"></div><div><label>Insurance Expiry</label><input data-f="insurance_expiry" type="date"></div><div><label>Permit Expiry</label><input data-f="permit_expiry" type="date"></div><div><label>HSE Status</label><input data-f="hse_status"></div><div><label>Quality Status</label><input data-f="quality_status"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('subcontractors')">Save Record</button></div></div><div class="panel"><div class="panelHead"><h3>Subcontractor Control Register</h3><span class="muted" id="subcontractorsCount"></span></div><div class="tablewrap"><table><thead><tr><th>Company</th><th>Scope</th><th>Contact</th><th>Insurance</th><th>Permit</th><th>HSE</th><th>Quality</th><th>Status</th></tr></thead><tbody id="subcontractorsBody"></tbody></table></div></div></div>
+<div id="approvals" class="page hidden"><div class="pagehead"><div><div class="eyebrow">ASG ENTERPRISE CONTROL</div><h1>Management Approvals</h1><p>Central register for operational, financial and administrative approval requests</p></div></div><div class="panel moduleForm"><div class="panelHead"><h3>Add / Register</h3><span class="muted roleWriteNote"></span></div><div class="formgrid"><div><label>Module *</label><input data-f="module"></div><div><label>Request Type *</label><input data-f="request_type"></div><div><label>Record Ref.</label><input data-f="record_ref"></div><div><label>Requested By</label><input data-f="requested_by_name"></div><div><label>Amount</label><input data-f="amount" type="number" step="0.01"></div><div><label>Currency</label><input data-f="currency" value="IQD"></div><div><label>Comments</label><input data-f="comments"></div></div><div class="actions"><button class="btn primary" onclick="saveModule('approvals')">Save Record</button></div></div><div class="panel"><div class="panelHead"><h3>Management Approvals Register</h3><span class="muted" id="approvalsCount"></span></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Module</th><th>Type</th><th>Requested By</th><th>Amount</th><th>Currency</th><th>Status</th><th>Approved By</th></tr></thead><tbody id="approvalsBody"></tbody></table></div></div></div>
+<div id="customPagesHost"></div>
+<div id="documents" class="page hidden">
+        <div class="pagehead">
+          <div>
+            <div class="eyebrow">Document center</div>
+            <h1>Documents / Files</h1>
+            <p>Add and organize PDF, Excel, Word, images and other project files.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panelHead"><h3>Add File</h3></div>
+          <div class="formgrid">
+            <div><label>File Title</label><input id="fTitle" placeholder="e.g. July 2026 Timesheet"></div>
+            <div><label>Category</label>
+              <select id="fCategory">
+                <option>Contracts</option>
+                <option>HSE & Safety</option>
+                <option>Timesheets</option>
+                <option>Invoices</option>
+                <option>Reports</option>
+                <option>Personnel</option>
+                <option>Equipment</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="full"><label>Notes</label><textarea id="fNotes" rows="2" placeholder="Optional description"></textarea></div>
+            <div class="full fileDrop">
+              <label>Select File *</label>
+              <input id="fFile" type="file" accept=".pdf,.xlsx,.xls,.doc,.docx,.png,.jpg,.jpeg,.webp,.txt,.csv">
+              <div class="muted" style="margin-top:8px">Files are stored locally in this browser for this offline version.</div>
+            </div>
+          </div>
+          <div class="actions"><button class="btn primary" onclick="saveFile()">Add File</button></div>
+        </div>
+
+        <div class="panel">
+          <div class="panelHead"><h3>Saved Files</h3><span class="muted" id="fileCount">0 files</span></div>
+          <div class="filter">
+            <div><label>Category</label>
+              <select id="fileFilter" onchange="renderFiles()">
+                <option value="">All Categories</option>
+                <option>Contracts</option>
+                <option>HSE & Safety</option>
+                <option>Timesheets</option>
+                <option>Invoices</option>
+                <option>Reports</option>
+                <option>Personnel</option>
+                <option>Equipment</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div><label>Search</label><input id="fileSearch" oninput="renderFiles()" placeholder="Search title, filename or notes"></div>
+            <button class="btn secondary" onclick="renderFiles()">Refresh</button>
+          </div>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>Date Added</th><th>Title</th><th>Category</th><th>File</th><th>Size</th><th>Notes</th><th>Actions</th></tr></thead>
+              <tbody id="filesBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="placeholder" class="page hidden"><div class="panel placeholder"><div class="icon">▦</div><h2 id="placeholderTitle">Module</h2><p class="muted">This module is ready to be expanded with its own forms, database and reports.</p></div></div>
+    </div>
+  </main>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://ylzrynwdznbllugtpwxv.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_4lafBgzxvMxVrfeZWLEXIw_7QeMu14m";
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let currentUser=null,currentProfile=null,recordsCache=[];
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function showError(msg){const e=document.getElementById("loginError");e.textContent=msg;e.classList.remove("hidden")}
+function hideError(){document.getElementById("loginError").classList.add("hidden")}
+
+async function login(){
+ hideError();
+ const email=document.getElementById("email").value.trim();
+ const password=document.getElementById("password").value;
+ if(!email||!password){showError("Enter email and password.");return}
+ const {error}=await sb.auth.signInWithPassword({email,password});
+ if(error){showError(error.message);return}
+ await startApp();
+}
+
+async function logout(){await sb.auth.signOut();currentUser=null;currentProfile=null;document.getElementById("app").classList.add("hidden");document.getElementById("login").classList.remove("hidden")}
+async function loadProfile(){
+ const {data:{user}}=await sb.auth.getUser();currentUser=user;
+ if(!user)return false;
+ const {data,error}=await sb.from("profiles").select("*").eq("id",user.id).single();
+ if(error){console.error(error);showError("This account is not authorized for ASG Employee Portal.");return false}
+ currentProfile=data;
+ profileName.textContent=data.full_name||data.email||"ASG User";
+ profileRole.textContent=(data.role||"viewer").toUpperCase();
+ return data.active!==false;
+}
+async function startApp(){
+ const active=await loadProfile();
+ if(!currentUser)return;
+ if(!active){await sb.auth.signOut();showError("Access denied. This employee account is inactive or not authorized by ASG Administration.");return}
+ document.getElementById("login").classList.add("hidden");
+ document.getElementById("app").classList.remove("hidden");
+ await renderAll(); await loadSettings(); applyRoleUI(); await loadBranding(); await loadCustomModules();
+}
+function showPage(id,el){
+ document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));
+ let target=document.getElementById(id);
+ if(!target){target=document.getElementById("placeholder");document.getElementById("placeholderTitle").textContent=id.replace(/^\w/,c=>c.toUpperCase())}
+ target.classList.remove("hidden");
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");
+ const titles={dashboard:"Daily Operation Dashboard",daily:"Equipment Rental Daily Record",monthly:"Equipment Rental Monthly Report",documents:"Documents / Files"};
+ document.getElementById("pageTitle").textContent=titles[id]||id.replace(/^\w/,c=>c.toUpperCase());
+ if(id==="monthly")renderMonthly();
+ if(id==="documents")renderFiles(); if(moduleConfig[id])loadModule(id); if(id==="users")loadUsers(); if(id==="settings")loadSettings(); if(id==="builder"){loadBranding();loadCustomModules();}
+}
+async function getRecords(){
+ const {data,error}=await sb.from("operation_records").select("*").order("operation_date",{ascending:false}).order("created_at",{ascending:false});
+ if(error){console.error(error);alert("Could not load operation records.");return []}
+ return data||[];
+}
+async function saveRecord(){
+ const equipment=dEquipment.value.trim();if(!equipment){alert("Enter Equipment / Unit");return}
+ const rec={operation_date:dDate.value,contract:dContract.value,category:dCategory.value,equipment,operator:dOperator.value.trim()||null,location:dLocation.value.trim()||null,start_time:dStart.value||null,end_time:dEnd.value||null,status:dStatus.value,notes:dNotes.value.trim()||null,created_by:currentUser.id};
+ const {error}=await sb.from("operation_records").insert(rec);
+ if(error){alert(error.message);return}
+ dEquipment.value=dOperator.value=dLocation.value=dStart.value=dEnd.value=dNotes.value="";
+ await renderAll();alert("Daily record saved online.");
+}
+async function renderAll(){
+ recordsCache=await getRecords();
+ const r=recordsCache,today=new Date().toISOString().slice(0,10);
+ if(document.getElementById("sToday"))sToday.textContent=r.filter(x=>x.operation_date===today).length;
+ if(document.getElementById("sTotal"))sTotal.textContent=r.length;
+ if(document.getElementById("sContracts"))sContracts.textContent=new Set(r.map(x=>x.contract)).size;
+ if(document.getElementById("sCompleted"))sCompleted.textContent=r.filter(x=>x.status==="Completed").length;
+ recentBody.innerHTML=r.slice(0,8).map(x=>`<tr><td>${esc(x.operation_date)}</td><td>${esc(x.contract)}</td><td><b>${esc(x.equipment)}</b></td><td>${esc(x.operator||"—")}</td><td>${esc(x.location||"—")}</td><td><span class="badge">${esc(x.status)}</span></td></tr>`).join("");
+ if(document.getElementById("recordsBody"))recordsBody.innerHTML=r.map(x=>`<tr><td>${esc(x.operation_date)}</td><td>${esc(x.contract)}</td><td>${esc(x.category)}</td><td><b>${esc(x.equipment)}</b></td><td>${esc(x.operator||"—")}</td><td>${esc(x.location||"—")}</td><td>${esc((x.start_time||"—").slice(0,5))} - ${esc((x.end_time||"—").slice(0,5))}</td><td><span class="badge">${esc(x.status)}</span></td><td>${esc(x.notes||"—")}</td></tr>`).join("");
+ renderMonthly();
+}
+function renderMonthly(){
+ const map={};
+ recordsCache.forEach(x=>{const m=(x.operation_date||"").slice(0,7),k=m+"|"+x.contract;if(!m)return;if(!map[k])map[k]={m,c:x.contract,n:0,done:0};map[k].n++;if(x.status==="Completed")map[k].done++});
+ monthlyBody.innerHTML=Object.values(map).sort((a,b)=>b.m.localeCompare(a.m)).map(x=>`<tr><td><b>${x.m}</b></td><td>${esc(x.c)}</td><td>${x.n}</td><td>${x.done}</td><td>${Math.round(x.done/x.n*100)}%</td></tr>`).join("");
+}
+function fmtSize(n){if(n<1024)return n+" B";if(n<1048576)return(n/1024).toFixed(1)+" KB";return(n/1048576).toFixed(1)+" MB"}
+async function saveFile(){
+ const input=fFile,file=input.files[0];if(!file){alert("Select a file first.");return}
+ const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+ const path=`${currentUser.id}/${Date.now()}_${safe}`;
+ const {error:upErr}=await sb.storage.from("asg-documents").upload(path,file,{contentType:file.type||"application/octet-stream",upsert:false});
+ if(upErr){alert(upErr.message);return}
+ const meta={title:fTitle.value.trim()||file.name,category:fCategory.value,notes:fNotes.value.trim()||null,file_name:file.name,object_path:path,mime_type:file.type||null,size_bytes:file.size,created_by:currentUser.id};
+ const {error}=await sb.from("documents").insert(meta);
+ if(error){await sb.storage.from("asg-documents").remove([path]);alert(error.message);return}
+ fTitle.value="";fNotes.value="";input.value="";await renderFiles();alert("File uploaded online.");
+}
+async function getFiles(){
+ const {data,error}=await sb.from("documents").select("*").order("created_at",{ascending:false});
+ if(error){console.error(error);return []}return data||[];
+}
+async function renderFiles(){
+ if(!document.getElementById("filesBody"))return;
+ let files=await getFiles(),cat=fileFilter.value,q=fileSearch.value.trim().toLowerCase();
+ if(cat)files=files.filter(x=>x.category===cat);
+ if(q)files=files.filter(x=>(`${x.title} ${x.file_name} ${x.notes||""}`).toLowerCase().includes(q));
+ fileCount.textContent=files.length+" file"+(files.length===1?"":"s");
+ filesBody.innerHTML=files.map(x=>`<tr><td>${esc((x.created_at||"").slice(0,10))}</td><td><b>${esc(x.title)}</b></td><td>${esc(x.category)}</td><td><div class="fileName">${esc(x.file_name)}</div></td><td>${fmtSize(x.size_bytes||0)}</td><td>${esc(x.notes||"—")}</td><td><div class="fileActions"><button class="btn small secondary" onclick="openSavedFile(${x.id})">Open</button><button class="btn small secondary" onclick="downloadSavedFile(${x.id})">Save As</button><button class="btn small danger" onclick="deleteSavedFile(${x.id})">Delete</button></div></td></tr>`).join("")||`<tr><td colspan="7" style="text-align:center;color:#6d7f85;padding:28px">No files added yet.</td></tr>`;
+ window.__asgFiles=Object.fromEntries(files.map(x=>[x.id,x]));
+}
+async function signedFile(id){
+ const x=window.__asgFiles?.[id]||(await getFiles()).find(y=>y.id===id);if(!x)return null;
+ const {data,error}=await sb.storage.from("asg-documents").createSignedUrl(x.object_path,60);
+ if(error){alert(error.message);return null}return{x,url:data.signedUrl};
+}
+async function openSavedFile(id){const r=await signedFile(id);if(r)window.open(r.url,"_blank")}
+async function downloadSavedFile(id){const r=await signedFile(id);if(!r)return;const a=document.createElement("a");a.href=r.url;a.download=r.x.file_name;document.body.appendChild(a);a.click();a.remove()}
+async function deleteSavedFile(id){
+ if(!confirm("Delete this file from the portal?"))return;
+ const x=window.__asgFiles?.[id]||(await getFiles()).find(y=>y.id===id);if(!x)return;
+ const {error:storageError}=await sb.storage.from("asg-documents").remove([x.object_path]);if(storageError){alert(storageError.message);return}
+ const {error}=await sb.from("documents").delete().eq("id",id);if(error){alert(error.message);return}
+ await renderFiles();
+}
+
+let editingModule=null, editingRecordId=null;
+const moduleCache={};
+const moduleConfig={
+ maintenance:{table:"maintenance_records",roles:["admin","manager","operations","warehouse"],cols:x=>[x.maintenance_date,x.asset_kind+" #"+(x.asset_id||"—"),x.maintenance_type,x.description,x.vendor||"—",x.cost+" "+x.currency,x.next_due_date||"—",x.status]},
+ fuel:{table:"fuel_records",roles:["admin","manager","operations","finance"],cols:x=>[x.record_date,x.asset_kind+" #"+(x.asset_id||"—"),x.quantity_liters,x.unit_price,x.total_cost,x.supplier||"—",x.ticket_no||"—"]},
+ suppliers:{table:"suppliers",roles:["admin","manager","finance"],cols:x=>[x.supplier_name,x.service_type||"—",x.contact_person||"—",x.mobile||"—",x.status,x.rating||"—"]},
+ procurement:{table:"procurement_requests",roles:["admin","manager","finance","operations","warehouse"],cols:x=>[x.request_date,x.request_no||"—",x.department||"—",x.item_description,(x.quantity||0)+" "+(x.unit||""),(x.estimated_cost||0)+" "+x.currency,x.required_date||"—",x.status]},
+ subcontractors:{table:"subcontractors",roles:["admin","manager"],cols:x=>[x.company_name,x.service_scope||"—",x.contact_person||"—",x.insurance_expiry||"—",x.permit_expiry||"—",x.hse_status||"—",x.quality_status||"—",x.status]},
+ approvals:{table:"approval_requests",roles:["admin","manager","finance"],cols:x=>[(x.request_date||"").slice(0,10),x.module,x.request_type,x.requested_by_name||"—",x.amount||"—",x.currency||"—",x.status,x.approved_by||"—"]},
+
+ employees:{table:"employees",roles:["admin","manager","hr"],cols:x=>[x.full_name,x.job_title,x.worker_type,x.department||"—",x.license_no||"—",x.ddc_expiry||"—",x.active?"Active":"Inactive"]},
+ fleet:{table:"vehicles",roles:["admin","manager","operations"],cols:x=>[x.unit_no,x.vehicle_type,x.plate_no||"—",x.owner_name||"—",x.model||"—",x.inspection_expiry||"—",x.status]},
+ equipment:{table:"equipment_assets",roles:["admin","manager","operations","warehouse"],cols:x=>[x.asset_no,x.equipment_type,x.description,x.capacity||"—",x.inspection_expiry||"—",x.certification_expiry||"—",x.status]},
+ hse:{table:"hse_records",roles:["admin","manager","hse"],cols:x=>[x.record_date,x.record_type,x.title,x.location||"—",x.severity||"—",x.status,x.responsible_person||"—"]},
+ quality:{table:"quality_records",roles:["admin","manager","quality"],cols:x=>[x.record_date,x.record_type,x.title,x.status,x.responsible_person||"—",x.due_date||"—"]},
+ journeys:{table:"journeys",roles:["admin","manager","operations","hse"],cols:x=>[x.journey_date,x.origin,x.destination,x.purpose||"—",x.passenger_count??"—",x.risk_level||"—",x.status]},
+ materials:{table:"material_movements",roles:["admin","manager","operations","warehouse"],cols:x=>[x.movement_date,x.from_location,x.to_location,x.material_description,(x.quantity??"—")+" "+(x.unit||""),x.lifting_plan_ref||"—",x.status]},
+ water:{table:"water_deliveries",roles:["admin","manager","operations"],cols:x=>[x.delivery_date,x.source_location||"—",x.destination_location,x.quantity_m3,x.ticket_no||"—",x.receiver_name||"—",x.status]},
+ contracts:{table:"contracts",roles:["admin","manager"],cols:x=>[x.contract_name,x.client,x.contract_code||"—",x.start_date||"—",x.end_date||"—",x.status]},
+ permits:{table:"permits",roles:["admin","manager","hr","operations","hse"],cols:x=>[x.employee_id,x.permit_type,x.permit_no||"—",x.issue_date||"—",x.expiry_date||"—",x.status]},
+ ppe:{table:"ppe_issues",roles:["admin","manager","hse","hr"],cols:x=>[x.employee_id,x.issue_date,x.item,x.quantity,x.size||"—",x.replacement_due||"—",x.issued_by||"—"]},
+ certificates:{table:"certificates",roles:["admin","manager","hse","hr"],cols:x=>[x.employee_id,x.certificate_type,x.certificate_no||"—",x.issuer||"—",x.issue_date||"—",x.expiry_date||"—",x.status]},
+ rates:{table:"rate_cards",roles:["admin","manager","finance"],finance:true,cols:x=>[x.description,x.item_type,x.unit,x.client_rate,x.company_pay_rate,(Number(x.client_rate)-Number(x.company_pay_rate)).toFixed(2),x.currency]},
+ timesheets:{table:"client_timesheets",roles:["admin","manager","finance"],finance:true,cols:x=>[x.period_month,x.timesheet_no||"—",x.client,x.client_total,x.company_payroll_total,x.expenses_total,(Number(x.client_total)-Number(x.company_payroll_total)-Number(x.expenses_total)).toFixed(2),x.status]},
+ invoices:{table:"invoices",roles:["admin","manager","finance"],finance:true,cols:x=>[x.invoice_no,x.invoice_date,x.amount,x.received_amount,(Number(x.amount)-Number(x.received_amount)).toFixed(2),x.currency,x.status]},
+ payroll:{table:"payroll_runs",roles:["admin","manager","finance","hr"],finance:true,cols:x=>[x.period_month,x.total_amount,x.currency,x.status,x.approved_by||"—",x.approved_date||"—"]},
+ expenses:{table:"expenses",roles:["admin","manager","finance"],finance:true,cols:x=>[x.expense_date,x.category,x.description,x.amount,x.currency,x.reference_no||"—",x.approved_by||"—"]}
+};
+function role(){return currentProfile?.role||"viewer"}
+function canWrite(id){return (moduleConfig[id]?.roles||[]).includes(role())}
+function canFinance(){return ["admin","manager","finance"].includes(role())}
+function canAdmin(){return ["admin","manager"].includes(role())}
+function applyRoleUI(){
+ document.querySelectorAll(".financeNav,.financeOnly").forEach(x=>x.style.display=canFinance()?"":"none");
+ document.querySelectorAll(".adminNav,.adminOnly").forEach(x=>x.style.display=canAdmin()?"":"none");
+ Object.keys(moduleConfig).forEach(id=>{const p=document.getElementById(id);if(!p)return;const f=p.querySelector(".moduleForm");if(f)f.style.display=canWrite(id)?"":"none"});
+}
+async function loadSettings(){
+ const {data}=await sb.from("company_settings").select("*").eq("id",1).single();if(!data)return;
+ kPickups.textContent=data.pickup_count;kBuses.textContent=data.bus_count;kTrailers.textContent=data.trailer_count;kForklifts.textContent=data.forklift_count;kCranes.textContent=data.crane_count;
+ setPickups.value=data.pickup_count;setBuses.value=data.bus_count;setTrailers.value=data.trailer_count;setForklifts.value=data.forklift_count;setCranes.value=data.crane_count;setLoaders.value=data.loader_count;setLaborers.value=data.laborer_count;setForemen.value=data.foreman_count;setEFDrivers.value=data.electric_forklift_driver_count;
+}
+async function saveSettings(){
+ if(!canAdmin())return alert("Administrator permission required.");
+ const row={pickup_count:+setPickups.value,bus_count:+setBuses.value,trailer_count:+setTrailers.value,forklift_count:+setForklifts.value,crane_count:+setCranes.value,loader_count:+setLoaders.value,laborer_count:+setLaborers.value,foreman_count:+setForemen.value,electric_forklift_driver_count:+setEFDrivers.value,updated_at:new Date().toISOString()};
+ const {error}=await sb.from("company_settings").update(row).eq("id",1);if(error)return alert(error.message);await loadSettings();alert("Company settings updated.");
+}
+function collectModule(id){
+ const p=document.getElementById(id),o={};p.querySelectorAll("[data-f]").forEach(el=>{let v=el.value;if(v==="")return;if(el.type==="number")v=Number(v);o[el.dataset.f]=v});return o;
+}
+async function saveModule(id){
+ if(!canWrite(id))return alert("You do not have permission to modify this module.");
+ const c=moduleConfig[id],row=collectModule(id);
+ let error;
+ if(editingModule===id && editingRecordId){
+   ({error}=await sb.from(c.table).update(row).eq("id",editingRecordId));
+ }else{
+   ({error}=await sb.from(c.table).insert(row));
+ }
+ if(error)return alert(error.message);
+ const wasEdit=editingModule===id && editingRecordId;
+ cancelModuleEdit(id,false);
+ await loadModule(id);
+ alert(wasEdit?"Record updated successfully.":"Record saved successfully.");
+}
+async function loadModule(id){
+ const c=moduleConfig[id];if(!c)return;if(c.finance&&!canFinance())return;
+ const {data,error}=await sb.from(c.table).select("*").order("id",{ascending:false}).limit(250);if(error){console.error(error);return}
+ moduleCache[id]=data||[];
+ const body=document.getElementById(id+"Body");if(!body)return;
+ const table=body.closest("table"),headRow=table?.querySelector("thead tr");
+ if(canWrite(id)){
+   if(headRow&&!headRow.querySelector(".actionHead"))headRow.insertAdjacentHTML("beforeend",'<th class="actionHead">Actions</th>');
+ }else if(headRow?.querySelector(".actionHead"))headRow.querySelector(".actionHead").remove();
+ const actions=x=>canWrite(id)?`<td><div class="fileActions"><button class="btn small secondary" onclick="editModuleRecord('${id}',${x.id})">Edit</button><button class="btn small danger" onclick="deleteModuleRecord('${id}',${x.id})">Delete</button></div></td>`:"";
+ body.innerHTML=(data||[]).map(x=>"<tr>"+c.cols(x).map(v=>`<td>${esc(v)}</td>`).join("")+actions(x)+"</tr>").join("")||`<tr><td colspan="12" style="text-align:center;padding:25px;color:#718086">No records yet. Use Add / Register above to create the first record.</td></tr>`;
+ const cnt=document.getElementById(id+"Count");if(cnt)cnt.textContent=(data||[]).length+" records";
+}
+function getModuleSaveButton(id){return document.getElementById(id)?.querySelector(".moduleForm .actions .primary")}
+function ensureCancelButton(id){
+ const actions=document.getElementById(id)?.querySelector(".moduleForm .actions");if(!actions)return;
+ if(!actions.querySelector(".cancelEditBtn"))actions.insertAdjacentHTML("beforeend",` <button class="btn secondary cancelEditBtn" onclick="cancelModuleEdit('${id}')">Cancel Edit</button>`);
+}
+function editModuleRecord(id,recordId){
+ if(!canWrite(id))return alert("You do not have permission to edit this module.");
+ const row=(moduleCache[id]||[]).find(x=>Number(x.id)===Number(recordId));if(!row)return;
+ editingModule=id;editingRecordId=recordId;
+ const page=document.getElementById(id);
+ page.querySelectorAll("[data-f]").forEach(el=>{
+   let v=row[el.dataset.f];
+   if(v===null||v===undefined)v="";
+   if(el.type==="date"&&typeof v==="string")v=v.slice(0,10);
+   if(el.type==="time"&&typeof v==="string")v=v.slice(0,5);
+   el.value=v;
+ });
+ const btn=getModuleSaveButton(id);if(btn)btn.textContent="Update Record";
+ ensureCancelButton(id);
+ page.querySelector(".moduleForm")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function cancelModuleEdit(id,clear=true){
+ if(editingModule===id){editingModule=null;editingRecordId=null;}
+ const page=document.getElementById(id);if(!page)return;
+ if(clear)page.querySelectorAll("[data-f]").forEach(el=>{if(!["currency","unit","client"].includes(el.dataset.f))el.value=""});
+ const btn=getModuleSaveButton(id);if(btn)btn.textContent="Save Record";
+ page.querySelector(".cancelEditBtn")?.remove();
+}
+async function deleteModuleRecord(id,recordId){
+ if(!canWrite(id))return alert("You do not have permission to delete from this module.");
+ if(!confirm("Delete this record permanently?"))return;
+ const c=moduleConfig[id];
+ const {error}=await sb.from(c.table).delete().eq("id",recordId);
+ if(error)return alert(error.message);
+ if(editingModule===id&&Number(editingRecordId)===Number(recordId))cancelModuleEdit(id);
+ await loadModule(id);
+ alert("Record deleted.");
+}
+
+async function openModule(id){const btn=[...document.querySelectorAll(".nav button")].find(x=>x.getAttribute("onclick")?.includes("'"+id+"'"));showPage(id,btn)}
+async function callAdminUsers(payload){
+ const {data:{session}}=await sb.auth.getSession();if(!session)return {error:"No active session"};
+ const res=await fetch(SUPABASE_URL+"/functions/v1/admin-users",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+session.access_token},body:JSON.stringify(payload)});
+ return await res.json();
+}
+async function loadUsers(){if(!canAdmin())return;const r=await callAdminUsers({action:"list"});if(r.error)return;usersBody.innerHTML=(r.users||[]).map(x=>`<tr><td>${esc(x.full_name)}</td><td>${esc(x.email)}</td><td><b>${esc(x.role)}</b></td><td>${esc(x.department||"—")}</td><td>${x.active?"Active":"Disabled"}</td></tr>`).join("")}
+async function createPortalUser(){if(!canAdmin())return;const r=await callAdminUsers({action:"create",email:uEmail.value,password:uPass.value,full_name:uName.value,role:uRole.value,department:uDept.value});if(r.error)return alert(r.error);uName.value=uEmail.value=uPass.value=uDept.value="";await loadUsers();alert("User account created.");}
+
+
+let customModulesCache=[],customFieldsCache={};
+function isAdmin(){return role()==="admin"}
+async function loadBranding(){
+ const {data}=await sb.from("portal_customization").select("*").eq("id",1).single();if(!data)return;
+ bTitle.value=data.portal_title;bSubtitle.value=data.portal_subtitle;bCompany.value=data.company_display_name;bPrimary.value=data.primary_color;bAccent.value=data.accent_color;bSidebar.value=data.sidebar_color;
+ applyBranding(data);
+}
+function publicBrandUrl(path){if(!path)return "";return sb.storage.from("asg-branding").getPublicUrl(path).data.publicUrl}
+function applyBranding(d){
+ document.documentElement.style.setProperty("--asg-primary",d.primary_color||"#0e5651");document.documentElement.style.setProperty("--asg-accent",d.accent_color||"#d8753c");document.documentElement.style.setProperty("--asg-sidebar",d.sidebar_color||"#0b403d");
+ const side=document.querySelector("aside");if(side)side.style.background=d.sidebar_color||"#0b403d";
+ const title=document.querySelector(".brand strong");if(title)title.textContent=d.portal_title||"ASG Employee Portal";
+ if(document.getElementById("brandTitlePreview")){brandTitlePreview.textContent=d.portal_title;brandSubPreview.textContent=d.portal_subtitle;}
+ const lu=publicBrandUrl(d.logo_path),bu=publicBrandUrl(d.banner_path);
+ ["loginLogo","sideLogo","dashLogo"].forEach(id=>{const im=document.getElementById(id);if(im){im.src=lu||"";im.style.display=lu?"block":"none";}});
+ ["loginMark","sideMark"].forEach(id=>{const mk=document.getElementById(id);if(mk){mk.classList.toggle("hasLogo",!!lu);const sp=mk.querySelector("span");if(sp)sp.style.display=lu?"none":"";}});
+
+ if(document.getElementById("brandLogoPreview")){brandLogoPreview.src=lu||"";brandLogoPreview.style.visibility=lu?"visible":"hidden";}
+ if(document.getElementById("brandBannerPreview")){brandBannerPreview.src=bu||"";brandBannerPreview.style.display=bu?"block":"none";}
+}
+async function uploadBrandFile(input,prefix){const file=input.files[0];if(!file)return null;const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const path=`branding/${prefix}_${Date.now()}_${safe}`;const {error}=await sb.storage.from("asg-branding").upload(path,file,{upsert:false});if(error)throw error;return path}
+async function saveBranding(){if(!isAdmin())return alert("ADMIN only.");try{let {data:old}=await sb.from("portal_customization").select("*").eq("id",1).single();let logo=old?.logo_path||null,banner=old?.banner_path||null;const nl=await uploadBrandFile(bLogo,"logo"),nb=await uploadBrandFile(bBanner,"banner");if(nl)logo=nl;if(nb)banner=nb;const row={portal_title:bTitle.value||"ASG Employee Portal",portal_subtitle:bSubtitle.value||"Internal Transportation & Logistics Management System",company_display_name:bCompany.value||"ASG",primary_color:bPrimary.value,accent_color:bAccent.value,sidebar_color:bSidebar.value,logo_path:logo,banner_path:banner,updated_at:new Date().toISOString()};const {error}=await sb.from("portal_customization").update(row).eq("id",1);if(error)throw error;applyBranding(row);alert("System appearance saved.");}catch(e){alert(e.message)}}
+function resetBranding(){bPrimary.value="#0e5651";bAccent.value="#d8753c";bSidebar.value="#0b403d";}
+function keyify(s){return String(s).trim().toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")||"field_"+Date.now()}
+async function createCustomModule(){if(!isAdmin())return alert("ADMIN only.");if(!cmName.value.trim())return alert("Enter section name.");const {error}=await sb.from("custom_modules").insert({name:cmName.value.trim(),menu_group:cmGroup.value,icon:cmIcon.value||"▦",description:cmDesc.value.trim()||null,sort_order:+cmOrder.value||100});if(error)return alert(error.message);cmName.value=cmDesc.value="";await loadCustomModules();alert("New section added to your system.");}
+async function loadCustomModules(){const {data,error}=await sb.from("custom_modules").select("*").order("sort_order").order("id");if(error)return;customModulesCache=data||[];renderCustomNav();renderCustomModuleList();renderCustomModuleSelect();await renderCustomPages();}
+function renderCustomModuleList(){if(!document.getElementById("customModuleList"))return;customModuleList.innerHTML=customModulesCache.map(m=>`<div class="builderItem"><div><b>${esc(m.icon)} ${esc(m.name)}</b><div class="meta">${esc(m.menu_group)} · Order ${m.sort_order} · ${m.active?"Visible":"Hidden"}</div></div><div class="fileActions"><button class="btn small secondary" onclick="renameCustomModule(${m.id})">Rename</button><button class="btn small secondary" onclick="moveCustomModule(${m.id},-10)">↑</button><button class="btn small secondary" onclick="moveCustomModule(${m.id},10)">↓</button><button class="btn small secondary" onclick="toggleCustomModule(${m.id},${!m.active})">${m.active?"Hide":"Show"}</button><button class="btn small danger" onclick="deleteCustomModule(${m.id})">Delete</button></div></div>`).join("")||'<div class="muted">No custom sections yet.</div>';}
+function renderCustomModuleSelect(){if(!document.getElementById("cfModule"))return;const old=cfModule.value;cfModule.innerHTML=customModulesCache.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join("");if(old)cfModule.value=old;loadCustomFields();}
+async function renameCustomModule(id){const m=customModulesCache.find(x=>x.id===id),name=prompt("New section name:",m?.name||"");if(!name)return;await sb.from("custom_modules").update({name,updated_at:new Date().toISOString()}).eq("id",id);await loadCustomModules();}
+async function moveCustomModule(id,delta){const m=customModulesCache.find(x=>x.id===id);if(!m)return;await sb.from("custom_modules").update({sort_order:m.sort_order+delta}).eq("id",id);await loadCustomModules();}
+async function toggleCustomModule(id,active){await sb.from("custom_modules").update({active}).eq("id",id);await loadCustomModules();}
+async function deleteCustomModule(id){if(!confirm("Delete this section, its fields and records?"))return;const {error}=await sb.from("custom_modules").delete().eq("id",id);if(error)return alert(error.message);await loadCustomModules();}
+async function createCustomField(){if(!isAdmin())return alert("ADMIN only.");const mid=+cfModule.value;if(!mid||!cfLabel.value.trim())return alert("Select section and enter field label.");const opts=cfOptions.value.split(",").map(x=>x.trim()).filter(Boolean);const {error}=await sb.from("custom_fields").insert({module_id:mid,field_key:keyify(cfLabel.value),label:cfLabel.value.trim(),field_type:cfType.value,options:opts,required:cfRequired.value==="true",sort_order:+cfOrder.value||100});if(error)return alert(error.message);cfLabel.value=cfOptions.value="";await loadCustomFields();await renderCustomPages();}
+async function loadCustomFields(){const mid=+cfModule?.value;if(!mid)return;if(!customFieldsCache[mid]){}const {data}=await sb.from("custom_fields").select("*").eq("module_id",mid).order("sort_order").order("id");customFieldsCache[mid]=data||[];if(document.getElementById("customFieldList"))customFieldList.innerHTML=(data||[]).map(f=>`<div class="builderItem"><div><b>${esc(f.label)}</b><div class="meta">${esc(f.field_type)} · ${f.required?"Required":"Optional"} · Order ${f.sort_order}</div></div><div class="fileActions"><button class="btn small secondary" onclick="renameCustomField(${f.id},${mid})">Rename</button><button class="btn small danger" onclick="deleteCustomField(${f.id},${mid})">Delete</button></div></div>`).join("")||'<div class="muted">No fields yet.</div>';}
+async function renameCustomField(id,mid){const f=(customFieldsCache[mid]||[]).find(x=>x.id===id),n=prompt("Field name:",f?.label||"");if(!n)return;await sb.from("custom_fields").update({label:n}).eq("id",id);await loadCustomFields();await renderCustomPages();}
+async function deleteCustomField(id,mid){if(!confirm("Delete this field?"))return;await sb.from("custom_fields").delete().eq("id",id);await loadCustomFields();await renderCustomPages();}
+function renderCustomNav(){document.querySelectorAll(".dynamicCustomNav").forEach(x=>x.remove());const systemTitle=[...document.querySelectorAll(".navTitle")].find(x=>x.textContent.trim()==="System");if(!systemTitle)return;customModulesCache.filter(m=>m.active).forEach(m=>{const b=document.createElement("button");b.className="dynamicCustomNav customModuleBtn";b.innerHTML=`${esc(m.icon)} ${esc(m.name)}`;b.onclick=()=>showCustomPage(m.id,b);systemTitle.parentNode.insertBefore(b,systemTitle);});}
+function fieldInput(f){if(f.field_type==="textarea")return `<textarea data-cf="${esc(f.field_key)}" ${f.required?"required":""}></textarea>`;if(f.field_type==="select")return `<select data-cf="${esc(f.field_key)}">${(f.options||[]).map(o=>`<option>${esc(o)}</option>`).join("")}</select>`;if(f.field_type==="checkbox")return `<input data-cf="${esc(f.field_key)}" type="checkbox">`;return `<input data-cf="${esc(f.field_key)}" type="${f.field_type}" ${f.required?"required":""}>`}
+async function renderCustomPages(){const host=document.getElementById("customPagesHost");if(!host)return;host.innerHTML="";for(const m of customModulesCache.filter(x=>x.active)){const {data:fields}=await sb.from("custom_fields").select("*").eq("module_id",m.id).order("sort_order").order("id");customFieldsCache[m.id]=fields||[];const p=document.createElement("div");p.id="custom_"+m.id;p.className="page hidden";p.innerHTML=`<div class="pagehead"><div><div class="eyebrow">CUSTOM ASG MODULE</div><h1>${esc(m.name)}</h1><p>${esc(m.description||"Custom company section")}</p></div></div><div class="panel"><div class="panelHead"><h3>Add Record</h3></div><div class="formgrid">${(fields||[]).map(f=>`<div><label>${esc(f.label)}${f.required?" *":""}</label>${fieldInput(f)}</div>`).join("")}<div><label>Image / Photo</label><input class="customImageInput" type="file" accept="image/*"></div></div><div class="actions"><button class="btn primary" onclick="saveCustomRecord(${m.id})">Save Record</button></div></div><div class="panel"><div class="panelHead"><h3>${esc(m.name)} Records</h3></div><div class="tablewrap"><table><thead><tr>${(fields||[]).map(f=>`<th>${esc(f.label)}</th>`).join("")}<th>Photo</th><th>Actions</th></tr></thead><tbody id="customBody_${m.id}"></tbody></table></div></div>`;host.appendChild(p);}}
+async function showCustomPage(mid,btn){document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));document.getElementById("custom_"+mid)?.classList.remove("hidden");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn?.classList.add("active");const m=customModulesCache.find(x=>x.id===mid);pageTitle.textContent=m?.name||"Custom Module";await loadCustomRecords(mid);}
+async function saveCustomRecord(mid){if(!isAdmin())return alert("Only ADMIN can add/edit custom section records.");const p=document.getElementById("custom_"+mid),data={};for(const el of p.querySelectorAll("[data-cf]")){if(el.required&&!el.value)return alert("Complete required fields.");data[el.dataset.cf]=el.type==="checkbox"?el.checked:el.value}let image_path=null;const input=p.querySelector(".customImageInput"),file=input?.files[0];if(file){const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");image_path=`custom/${mid}/${Date.now()}_${safe}`;const {error}=await sb.storage.from("asg-branding").upload(image_path,file);if(error)return alert(error.message)}const {error}=await sb.from("custom_records").insert({module_id:mid,data,image_path});if(error)return alert(error.message);p.querySelectorAll("[data-cf]").forEach(el=>{if(el.type==="checkbox")el.checked=false;else el.value=""});if(input)input.value="";await loadCustomRecords(mid);}
+async function loadCustomRecords(mid){const {data}=await sb.from("custom_records").select("*").eq("module_id",mid).order("id",{ascending:false});const fields=customFieldsCache[mid]||[],body=document.getElementById("customBody_"+mid);if(!body)return;body.innerHTML=(data||[]).map(r=>`<tr>${fields.map(f=>`<td>${esc(r.data?.[f.field_key]??"—")}</td>`).join("")}<td>${r.image_path?`<img src="${publicBrandUrl(r.image_path)}" style="width:55px;height:45px;object-fit:cover;border-radius:7px">`:"—"}</td><td><button class="btn small danger" onclick="deleteCustomRecord(${mid},${r.id})">Delete</button></td></tr>`).join("")||`<tr><td colspan="20" style="text-align:center;padding:24px">No records yet.</td></tr>`;}
+async function deleteCustomRecord(mid,id){if(!isAdmin())return;if(!confirm("Delete this record?"))return;await sb.from("custom_records").delete().eq("id",id);await loadCustomRecords(mid);}
+
+function tick(){clock.textContent=new Date().toLocaleString()}setInterval(tick,30000);tick();
+if(document.getElementById("dDate"))dDate.value=new Date().toISOString().slice(0,10); if(document.getElementById("todayBox"))todayBox.textContent=new Date().toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+sb.auth.getSession().then(async({data})=>{if(data.session)await startApp()});
+</script>
+</body>
+</html>
